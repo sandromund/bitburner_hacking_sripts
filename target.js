@@ -1,6 +1,6 @@
-/** @param {NS} ns */
-export async function main(ns) {
 
+
+export function inspect(ns){
     let minHackingLevel = 0;
     let maxHackingLevel = ns.getHackingLevel();
 
@@ -15,7 +15,7 @@ export async function main(ns) {
 
         for (let connectedServer of ns.scan(serverName)) {
             if (!discoveredServers.includes(connectedServer)){
-              serversToScan.push(connectedServer); 
+            serversToScan.push(connectedServer); 
             }  
         }
         discoveredServers.push(serverName);
@@ -29,8 +29,16 @@ export async function main(ns) {
             hackableServers.push(hackableServer);
         }
     }
-
     hackableServers.sort((a, b) => a.serverHackingLevel - b.serverHackingLevel);
+    return hackableServers;
+}
+
+
+/** @param {NS} ns */
+export async function main(ns) {
+
+    let hackableServers = inspect(ns);
+
 
     for (let server of hackableServers) {
         ns.tprint("------------------------------------");
@@ -38,5 +46,5 @@ export async function main(ns) {
         ns.tprint("Hacking Level: " + server.serverHackingLevel);
     }
 
-    ns.tprint("------------------------------------");
+    ns.tprint("------------------------------------")
 }
